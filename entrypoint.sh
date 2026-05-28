@@ -49,6 +49,12 @@ Xvfb :99 -screen 0 1024x768x16 -nolisten tcp &
 # Wait for Xvfb to come up
 sleep 1
 
-# Run Anki. The ankimcp addon boots an HTTP MCP server on $ANKIMCP_HTTP_PORT
-# inside this process. Hermes reaches it via docker DNS (anki-headless:3141).
-exec anki
+# Pick / create a stable profile so Anki skips the profile picker dialog.
+# Without -p, Anki shows a GUI picker that we can't dismiss in headless mode.
+PROFILE_NAME="${ANKI_PROFILE:-Default}"
+mkdir -p "${ANKI_DATA}/${PROFILE_NAME}"
+
+# Run Anki against the chosen profile. The ankimcp addon boots an HTTP MCP
+# server on $ANKIMCP_HTTP_PORT inside this process. Hermes reaches it via
+# docker DNS (anki-headless:3141).
+exec anki -p "${PROFILE_NAME}"
