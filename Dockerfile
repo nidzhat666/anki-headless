@@ -21,13 +21,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# AnkiMCP addon — download latest release and unpack into Anki addons dir.
-# The .ankiaddon file is a ZIP, contents must live under addons21/<addon_id>/.
-RUN mkdir -p /root/.local/share/Anki2/addons21/anki_mcp_server \
+# AnkiMCP addon — download latest release and unpack into a staging dir.
+# We *cannot* bake it under /root/.local/share/Anki2 because that path is
+# meant to be bind-mounted from the host (the Anki user profile lives there
+# too). A bind-mount would mask whatever we baked. Instead the entrypoint
+# copies this staged copy into the real addons21 dir on every start.
+RUN mkdir -p /opt/ankimcp-addon \
  && curl -L -o /tmp/anki_mcp_server.ankiaddon \
       https://github.com/ankimcp/anki-mcp-server-addon/releases/latest/download/anki_mcp_server.ankiaddon \
- && unzip -o /tmp/anki_mcp_server.ankiaddon \
-      -d /root/.local/share/Anki2/addons21/anki_mcp_server \
+ && unzip -o /tmp/anki_mcp_server.ankiaddon -d /opt/ankimcp-addon \
  && rm /tmp/anki_mcp_server.ankiaddon
 
 COPY entrypoint.sh /entrypoint.sh

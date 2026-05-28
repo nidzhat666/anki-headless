@@ -3,6 +3,16 @@ set -e
 
 ANKI_DATA="/root/.local/share/Anki2"
 ADDON_DIR="${ANKI_DATA}/addons21/anki_mcp_server"
+ADDON_STAGED="/opt/ankimcp-addon"
+
+# Make sure the addons21 dir exists (the bind-mounted profile dir may be empty
+# on first boot), then drop the addon in if not already present. We do this
+# every start so a wiped profile dir self-heals on next restart.
+mkdir -p "${ANKI_DATA}/addons21"
+if [ ! -f "${ADDON_DIR}/__init__.py" ]; then
+  rm -rf "${ADDON_DIR}"
+  cp -r "${ADDON_STAGED}" "${ADDON_DIR}"
+fi
 
 # Render ankimcp config from env vars on every start so the addon
 # binds to 0.0.0.0 (reachable from hermes via docker DNS) instead of
