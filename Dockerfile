@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libnss3 libegl1 libgl1 libgssapi-krb5-2 libfontconfig1 \
       libdbus-1-3 libasound2t64 \
       ca-certificates curl unzip zstd \
+      xdg-utils \
       python3 python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
