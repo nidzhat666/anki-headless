@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libdbus-1-3 libasound2t64 \
       libglib2.0-0 libxrender1 libxcursor1 libxrandr2 \
       libxi6 libxext6 libsm6 libice6 \
+      libxcomposite1 libxdamage1 libxtst6 libxss1 libxfixes3 \
+      libxslt1.1 libpulse0 \
       fonts-dejavu-core \
       ca-certificates curl unzip zstd \
       xdg-utils \
