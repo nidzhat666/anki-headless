@@ -1,6 +1,14 @@
 #!/bin/sh
 set -e
 
+# Anki 25.x refuses to start without a UTF-8 locale.
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+
+# Clean stale Xvfb lock from prior runs (container restart leaves /tmp intact
+# because it's the same writable layer until --force-recreate).
+rm -f /tmp/.X99-lock /tmp/.X11-unix/X99
+
 ANKI_DATA="/root/.local/share/Anki2"
 ADDON_DIR="${ANKI_DATA}/addons21/anki_mcp_server"
 ADDON_STAGED="/opt/ankimcp-addon"
