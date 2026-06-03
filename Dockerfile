@@ -26,7 +26,8 @@ RUN curl -L -o /tmp/anki.tar.zst \
  && mkdir -p /opt/anki \
  && tar --use-compress-program=unzstd -xf /tmp/anki.tar.zst -C /opt/anki --strip-components=1 \
  && rm /tmp/anki.tar.zst \
- && cd /opt/anki && ./install.sh
+ && (cd /opt/anki && ./install.sh || true) \
+ && test -x /usr/local/bin/anki
 
 # AnkiMCP addon — download latest release and unpack into a staging dir.
 # We *cannot* bake it under /root/.local/share/Anki2 because that path is
