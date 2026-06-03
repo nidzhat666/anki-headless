@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libxslt1.1 libpulse0 \
       fonts-dejavu-core \
       ca-certificates curl unzip zstd \
-      xdg-utils \
+      xdg-utils xdotool \
       python3 python3-pip \
     && rm -rf /var/lib/apt/lists/*
 

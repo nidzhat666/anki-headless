@@ -62,6 +62,17 @@ sleep 1
 PROFILE_NAME="${ANKI_PROFILE:-Default}"
 mkdir -p "${ANKI_DATA}/${PROFILE_NAME}"
 
+# First-run language picker and welcome dialogs block on Xvfb because no
+# user is there to click "OK". Send Enter to display :99 every 2s for the
+# first 30s — that defaults the language to English and dismisses any
+# subsequent modal dialogs. After Anki opens the profile, MCP addon starts.
+(
+  for _ in $(seq 1 15); do
+    sleep 2
+    DISPLAY=:99 xdotool key Return 2>/dev/null || true
+  done
+) &
+
 # Run Anki against the chosen profile. The ankimcp addon boots an HTTP MCP
 # server on $ANKIMCP_HTTP_PORT inside this process. Hermes reaches it via
 # docker DNS (anki-headless:3141).
