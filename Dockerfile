@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libxcb-xfixes0 libxcb-xkb1 libxkbcommon-x11-0 libxkbfile1 \
       libnss3 libegl1 libgl1 libgssapi-krb5-2 libfontconfig1 \
       libdbus-1-3 libasound2t64 \
+      libglib2.0-0 libxrender1 libxcursor1 libxrandr2 \
+      libxi6 libxext6 libsm6 libice6 \
+      fonts-dejavu-core \
       ca-certificates curl unzip zstd \
       xdg-utils \
       python3 python3-pip \
